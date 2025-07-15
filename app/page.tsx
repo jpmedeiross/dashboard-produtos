@@ -1,7 +1,10 @@
-export default function Home() {
+import type { AppProps } from "next/app";
+import { AuthProvider } from "@/context/AuthContext";
+
+export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div>
-      <h1>hello</h1>
-    </div>
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
   );
 }
