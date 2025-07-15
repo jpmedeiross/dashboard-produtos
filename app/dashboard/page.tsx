@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useEffect } from "react";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const { user, logout } = useAuth();
   const router = useRouter();
 
