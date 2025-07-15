@@ -1,10 +1,8 @@
-import type { AppProps } from "next/app";
-import { AuthProvider } from "@/context/AuthContext";
-
-export default function App({ Component, pageProps }: AppProps) {
+export default function HomePage() {
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <main style={{ padding: 20 }}>
+      <h1>Bem-vindo à Home!</h1>
+      <p>Essa é a página principal.</p>
+    </main>
   );
 }
