@@ -2,25 +2,78 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { useEffect } from "react";
+interface Produto {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+}
 
 export default function DashboardPage() {
   const { user, logout } = useAuth();
   const router = useRouter();
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
     if (!user) {
       router.push("/login");
+    } else {
+      fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((data) => {
+          setProdutos(data);
+          setCarregando(false);
+        })
+        .catch((err) => {
+          console.error("Erro ao buscar produtos:", err);
+          setCarregando(false);
+        });
     }
   }, [user]);
 
   if (!user) return null;
 
   return (
-    <div style={{ padding: 20 }}>
+    <main style={{ padding: 20 }}>
       <h1>Bem-vindo, {user}!</h1>
-      <button onClick={logout}>Sair</button>
-    </div>
+      <button onClick={logout} style={{ marginBottom: 20 }}>
+        Sair
+      </button>
+
+      {carregando ? (
+        <p>Carregando produtos...</p>
+      ) : (
+        <ul
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+            gap: 20,
+          }}
+        >
+          {produtos.map((produto) => (
+            <li
+              key={produto.id}
+              style={{
+                border: "1px solid #ccc",
+                borderRadius: 8,
+                padding: 10,
+                listStyle: "none",
+              }}
+            >
+              <img
+                src={produto.image}
+                alt={produto.title}
+                style={{ width: "100%", height: 150, objectFit: "contain" }}
+              />
+              <h3>{produto.title}</h3>
+              <p>R$ {produto.price.toFixed(2)}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
   );
 }
