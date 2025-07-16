@@ -1,7 +1,7 @@
 "use client";
 
+import { ProductCard } from "@/components/ProductCard";
 import { useAuth } from "@/context/AuthContext";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -55,25 +55,13 @@ export default function DashboardPage() {
           }}
         >
           {produtos.map((produto) => (
-            <li
+            <ProductCard
               key={produto.id}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: 8,
-                padding: 10,
-                listStyle: "none",
-              }}
-            >
-              <Link href={`/dashboard/${produto.id}`}>
-                <img
-                  src={produto.image}
-                  alt={produto.title}
-                  style={{ width: "100%", height: 150, objectFit: "contain" }}
-                />
-                <h3>{produto.title}</h3>
-              </Link>
-              <p>R$ {produto.price.toFixed(2)}</p>
-            </li>
+              id={produto.id}
+              title={produto.title}
+              price={produto.price}
+              image={produto.image}
+            />
           ))}
         </ul>
       )}
