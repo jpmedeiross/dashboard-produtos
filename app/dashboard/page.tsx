@@ -1,10 +1,11 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface Produto {
+export interface Produto {
   id: number;
   title: string;
   price: number;
@@ -63,12 +64,14 @@ export default function DashboardPage() {
                 listStyle: "none",
               }}
             >
-              <img
-                src={produto.image}
-                alt={produto.title}
-                style={{ width: "100%", height: 150, objectFit: "contain" }}
-              />
-              <h3>{produto.title}</h3>
+              <Link href={`/dashboard/${produto.id}`}>
+                <img
+                  src={produto.image}
+                  alt={produto.title}
+                  style={{ width: "100%", height: 150, objectFit: "contain" }}
+                />
+                <h3>{produto.title}</h3>
+              </Link>
               <p>R$ {produto.price.toFixed(2)}</p>
             </li>
           ))}
